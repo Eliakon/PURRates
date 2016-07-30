@@ -1,6 +1,8 @@
 ﻿using System;
 using UnityEngine;
 using UnityEditor;
+using System.Collections.Generic;
+using System.Linq;
 
 [InitializeOnLoad]
 public class PURRatesMenu {
@@ -32,6 +34,8 @@ public class PURRatesMenu {
     GameObject root = GameObject.Find("Map");
     RectTransform rootTransform = root.GetComponent<RectTransform>();
     RectTransform seaTileTransform = seaTile.GetComponent<RectTransform>();    
+    List<Vector2> generatedVectors = new List<Vector2>();
+
 
     float tileXGap = seaTileTransform.sizeDelta.x / 2; 
     float tileYGap = seaTileTransform.sizeDelta.y / 2;
@@ -45,16 +49,16 @@ public class PURRatesMenu {
 
     for (int x = xOffset; x < width + xOffset; x++) {
       for (int y = yOffset; y < height + yOffset; y++) {
-        GameObject tile = (GameObject) PrefabUtility.InstantiatePrefab(seaTile);
-        RectTransform tileTransform = tile.GetComponent<RectTransform>();
-        tileTransform.SetParent(rootTransform);        
-        tileTransform.localPosition = new Vector3(
-          tileXGap * (x - y),
-          tileYGap * (x + y),
-          0
-        );
-        tileTransform.localScale = new Vector3(1, 1, 1);
+        generatedVectors.Add(new Vector2(tileXGap * (x - y), tileYGap * (x + y)));
       }
+    }
+
+    foreach (Vector2 pos in generatedVectors.OrderBy(p => -p.y)) {
+      GameObject tile = (GameObject) PrefabUtility.InstantiatePrefab(seaTile);
+      RectTransform tileTransform = tile.GetComponent<RectTransform>();
+      tileTransform.SetParent(rootTransform);        
+      tileTransform.localPosition = new Vector3(pos.x, pos.y, 0);
+      tileTransform.localScale = new Vector3(1, 1, 1);
     }
 
   }
