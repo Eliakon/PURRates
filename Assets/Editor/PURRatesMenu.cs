@@ -225,7 +225,7 @@ public class PURRatesMenu {
       }
     }
 
-    List<IslandConfig> islands = generateIslands(mapConfig);
+    generateIslands(mapConfig);
 
     foreach (TileConfig tileConfig in generatedTiles.OrderBy(p => -p.y)) {
       GameObject tile = (GameObject) PrefabUtility.InstantiatePrefab(tileConfig.prefab);
