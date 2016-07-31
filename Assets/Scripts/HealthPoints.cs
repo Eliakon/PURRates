@@ -26,11 +26,11 @@ public class HealthPoints : MonoBehaviour
         if (animated)
         {
             var t = currentAnimationTime / animationDuration;
-            Debug.Log(t);
             health.anchorMax = new Vector2(Mathf.Lerp(fromValue, toValue, t), health.anchorMax.y);
 
             if (currentAnimationTime >= animationDuration)
             {
+                health.anchorMax = new Vector2(toValue, health.anchorMax.y);
                 animated = false;
             }
 
