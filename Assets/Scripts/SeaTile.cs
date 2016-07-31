@@ -9,8 +9,8 @@ public class SeaTile : MonoBehaviour
 
     [SerializeField]
     private RectTransform rectTransform;
-    [SerializeField]
-    private Game game;
+
+    public Game game;
 
     public void HandleTileClicked()
     {

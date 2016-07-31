@@ -92,6 +92,8 @@ public class PURRatesMenu {
   static RectTransform rootTransform;
   static RectTransform seaTileTransform;
 
+  static Game gameScript;
+
   static List<TileConfig> generatedTiles;
 
 
@@ -99,6 +101,8 @@ public class PURRatesMenu {
     seaTile = loadPrefab(SEA_TILE_PATH);
     sandTile = loadPrefab(SAND_TILE_PATH);
     grassTile = loadPrefab(GRASS_TILE_PATH);
+
+    gameScript = GameObject.Find("Game").GetComponent<Game>();
 
     root = GameObject.Find("Map");
     rootTransform = root.GetComponent<RectTransform>();
@@ -194,13 +198,12 @@ public class PURRatesMenu {
 
     for (int x = 0; x < mapConfig.width; ++x) {
       for (int y = 0; y < mapConfig.height; ++y) {
-        generatedTiles.Add(new TileConfig(
-          x,
-          y,
-          tileXGap * (x - y) + mapConfig.xOffset,
-          tileYGap * (x + y) + mapConfig.yOffset,
-          seaTile
-        ));
+        int ox = x + mapConfig.xOffset;
+        int oy = y + mapConfig.yOffset;
+
+        generatedTiles.Add(
+          new TileConfig(x, y, tileXGap * (ox - oy), tileYGap * (ox + oy), seaTile)
+        );
       }
     }
 
@@ -208,6 +211,11 @@ public class PURRatesMenu {
 
     foreach (TileConfig tileConfig in generatedTiles.OrderBy(p => -p.y)) {
       GameObject tile = (GameObject) PrefabUtility.InstantiatePrefab(tileConfig.prefab);
+
+      if (tileConfig.prefab == seaTile) {
+        tile.GetComponent<SeaTile>().game = gameScript;
+      }
+
       RectTransform tileTransform = tile.GetComponent<RectTransform>();
       tileTransform.SetParent(rootTransform);        
       tileTransform.localPosition = new Vector3(tileConfig.x, tileConfig.y, 0);
