@@ -54,6 +54,7 @@ public class TileConfig {
   public float heat;
   public int mapX;
   public int mapY;
+  public RectTransform parent;
 
   public TileConfig(int mapX, int mapY, float x, float y, GameObject prefab) {
     this.mapX = mapX;
@@ -70,8 +71,14 @@ public class IslandConfig {
   public float centerY;
   public int width;
   public int height;
+  public GameObject root;
+  public RectTransform rootTransform;
 
-  public IslandConfig(int width, int height) {
+  public IslandConfig(int width, int height, GameObject islandRoot) {
+    this.root = (GameObject) PrefabUtility.InstantiatePrefab(islandRoot);
+    root.name = "Island " + width + "x" + height;
+
+    this.rootTransform = this.root.GetComponent<RectTransform>();
     this.width = width;
     this.height = height;
   }
@@ -80,10 +87,12 @@ public class IslandConfig {
 [InitializeOnLoad]
 public class PURRatesMenu {
 
+  const string ISLAND_ROOT_PATH = "Assets/Prefabs/Island.prefab";
   const string SEA_TILE_PATH = "Assets/Prefabs/Sea.prefab";
   const string SAND_TILE_PATH = "Assets/Prefabs/Sand.prefab";
   const string GRASS_TILE_PATH = "Assets/Prefabs/Grass.prefab";
 
+  static GameObject islandRoot;
   static GameObject seaTile;
   static GameObject sandTile;
   static GameObject grassTile;
@@ -118,6 +127,7 @@ public class PURRatesMenu {
     seaTile = loadPrefab(SEA_TILE_PATH);
     sandTile = loadPrefab(SAND_TILE_PATH);
     grassTile = loadPrefab(GRASS_TILE_PATH);
+    islandRoot = loadPrefab(ISLAND_ROOT_PATH);
 
     gameScript = GameObject.Find("Game").GetComponent<Game>();
 
@@ -142,8 +152,13 @@ public class PURRatesMenu {
     for (int index = 0; index < mapConfig.islandsCount; ++index) {
       IslandConfig island = new IslandConfig(
         UnityEngine.Random.Range(mapConfig.minIslandWidth, mapConfig.maxIslandWidth),
-        UnityEngine.Random.Range(mapConfig.minIslandHeight, mapConfig.maxIslandHeight)
+        UnityEngine.Random.Range(mapConfig.minIslandHeight, mapConfig.maxIslandHeight),
+        islandRoot
       );
+
+      island.rootTransform.SetParent(rootTransform);
+      island.rootTransform.localPosition = new Vector3(0, 0, 0);
+      island.rootTransform.localScale = new Vector3(1, 1, 1);
 
       int diameter = Mathf.Max(island.width, island.height);
       int ray = diameter / 2 + diameter % 2;
@@ -169,6 +184,8 @@ public class PURRatesMenu {
             for (int islandY = (int) island.centerY - island.height / 2; islandY <= island.centerY + island.height / 2; ++islandY) {
               TileConfig toChange = generatedTiles.Find(t => t.mapX == islandX && t.mapY == islandY);
               
+              toChange.parent = island.rootTransform;
+
               if (Mathf.Abs(islandX - island.centerX) == island.width / 2 || Mathf.Abs(islandY - island.centerY) == island.height / 2) {
                 toChange.prefab = sandTile;
               } else {
@@ -218,7 +235,7 @@ public class PURRatesMenu {
       }
 
       RectTransform tileTransform = tile.GetComponent<RectTransform>();
-      tileTransform.SetParent(rootTransform);        
+      tileTransform.SetParent(tileConfig.parent == null ? rootTransform : tileConfig.parent);
       tileTransform.localPosition = new Vector3(tileConfig.x, tileConfig.y, 0);
       tileTransform.localScale = new Vector3(1, 1, 1);
     }
