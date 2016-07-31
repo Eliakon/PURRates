@@ -13,12 +13,32 @@ public class Purrate : MonoBehaviour
     private Animator selectionAnimator;
     [SerializeField]
     private float animationDuration = 5;
+    [SerializeField]
+    public BaballLauncher baballLauncher;
+    [SerializeField]
+    private HealthPoints healthPoints;
+    [SerializeField]
+    private int life = 9;
 
+    private int maxLife;
     private bool selected = false;
     private bool moving = false;
     private Vector2 position;
     private Vector2 targetPosition;
     private float currentAnimationTime;
+
+    public int Life
+    {
+        get
+        {
+            return life;
+        }
+    }
+
+    private void Start()
+    {
+        maxLife = life;
+    }
 
     public void Select(bool select)
     {
@@ -34,6 +54,17 @@ public class Purrate : MonoBehaviour
         moving = true;
     }
 
+    public void LaunchAttack(Purrate enemy)
+    {
+        baballLauncher.LaunchAttack(enemy);
+    }
+
+    public void Strike()
+    {
+        life -= 1;
+        healthPoints.SetHealth(life, maxLife);
+    }
+
     private void Update()
     {
         if (moving)
@@ -45,7 +76,6 @@ public class Purrate : MonoBehaviour
 
             if (currentAnimationTime >= animationDuration)
             {
-                rectTransform.localPosition = new Vector3(targetPosition.x, targetPosition.y, 0);
                 moving = false;
             }
 

@@ -19,11 +19,15 @@ public class PurrateSkinManager : MonoBehaviour
     [SerializeField]
     private Sprite[] flagSkins;
     [SerializeField]
+    private Sprite[] ballSkins;
+    [SerializeField]
     private Color[] colorSkins;
     [SerializeField]
     private Image hat;
     [SerializeField]
     private Image flag;
+    [SerializeField]
+    private Image ball;
     [SerializeField]
     private Image selection;
 
@@ -37,17 +41,16 @@ public class PurrateSkinManager : MonoBehaviour
 
     private void OnValidate()
     {
+        Debug.Log("On validate skincolor=" + skinColor);
         SetColor(skinColor);
     }
 
     public void SetColor(SkinColor color)
     {
-        if (skinColor != color)
-        {
-            skinColor = color;
-            hat.sprite = hatSkins[(int)skinColor];
-            flag.sprite = flagSkins[(int)skinColor];
-            selection.color = colorSkins[(int)skinColor];
-        }
+        skinColor = color;
+        hat.sprite = hatSkins[(int)skinColor];
+        flag.sprite = flagSkins[(int)skinColor];
+        ball.sprite = ballSkins[(int)skinColor];
+        selection.color = colorSkins[(int)skinColor];
     }
 }
