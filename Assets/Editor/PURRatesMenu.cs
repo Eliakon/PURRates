@@ -98,15 +98,6 @@ public class PURRatesMenu {
 
 
   static PURRatesMenu() {
-    seaTile = loadPrefab(SEA_TILE_PATH);
-    sandTile = loadPrefab(SAND_TILE_PATH);
-    grassTile = loadPrefab(GRASS_TILE_PATH);
-
-    gameScript = GameObject.Find("Game").GetComponent<Game>();
-
-    root = GameObject.Find("Map");
-    rootTransform = root.GetComponent<RectTransform>();
-    seaTileTransform = seaTile.GetComponent<RectTransform>();
   }
 
   static GameObject loadPrefab(string path) {
@@ -124,6 +115,16 @@ public class PURRatesMenu {
   [MenuItem("PURRates/New Map")]
   private static void CreateWaterMap()
   {
+    seaTile = loadPrefab(SEA_TILE_PATH);
+    sandTile = loadPrefab(SAND_TILE_PATH);
+    grassTile = loadPrefab(GRASS_TILE_PATH);
+
+    gameScript = GameObject.Find("Game").GetComponent<Game>();
+
+    root = GameObject.Find("Map");
+    rootTransform = root.GetComponent<RectTransform>();
+    seaTileTransform = seaTile.GetComponent<RectTransform>();
+
     if (seaTile == null) return;
 
     CreateMapDialog dialog = (CreateMapDialog) EditorWindow.GetWindow(typeof(CreateMapDialog));
