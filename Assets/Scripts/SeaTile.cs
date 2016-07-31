@@ -9,12 +9,11 @@ public class SeaTile : MonoBehaviour
 
     [SerializeField]
     private RectTransform rectTransform;
-
     [SerializeField]
-    Vector3Event TileClicked;
+    private Game game;
 
     public void HandleTileClicked()
     {
-        TileClicked.Invoke(rectTransform.localPosition);
+        game.MoveCat(rectTransform.localPosition);
     }
 }
