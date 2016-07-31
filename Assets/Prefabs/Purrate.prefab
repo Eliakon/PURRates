@@ -164,6 +164,7 @@ MonoBehaviour:
   rectTransform: {fileID: 22490062}
   skinManager: {fileID: 11486836}
   selectionAnimator: {fileID: 9506060}
+  animationDuration: 5
 --- !u!114 &11448236
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -370,7 +371,7 @@ RectTransform:
   m_RootOrder: 1
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -16, y: -2}
+  m_AnchoredPosition: {x: -16, y: 141.5}
   m_SizeDelta: {x: 260, y: 287}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &22429548
@@ -408,7 +409,7 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -5, y: 125}
   m_SizeDelta: {x: 260, y: 287}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &22498720
@@ -426,7 +427,7 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 21.5}
+  m_AnchoredPosition: {x: 0, y: 165}
   m_SizeDelta: {x: 161, y: 83}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &100100000
