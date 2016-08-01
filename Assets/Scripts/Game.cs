@@ -32,7 +32,10 @@ public class Game : MonoBehaviour
     {
         if (cat.skinManager.Color != localTeam.skinColor)
         {
-            selectedCat.LaunchAttack(cat);
+            if (selectedCat != null)
+            {
+                selectedCat.LaunchAttack(cat);
+            }
             return;
         }
 

@@ -9,6 +9,8 @@ public class BaballLauncher : MonoBehaviour
     private float animationDuration = 2;
     [SerializeField]
     private float bounce = 100;
+    [SerializeField]
+    private float attackRange = 200;
 
     private bool attacking = false;
     private Vector2 anchoredPosition;
@@ -17,21 +19,45 @@ public class BaballLauncher : MonoBehaviour
     private Vector2 targetPosition;
     private float currentAnimationTime;
 
+    public bool Attacking
+    {
+        get
+        {
+            return attacking;
+        }
+    }
+
     private void Start()
     {
         anchoredPosition = baball.anchoredPosition;
     }
 
+    public bool CanAttack(Purrate cat)
+    {
+        var catPosition = SwitchToRectTransform(baball, cat.baballLauncher.baball);
+        var diffX = Mathf.Abs(catPosition.x - baball.anchoredPosition.x);
+        var diffY = Mathf.Abs(catPosition.y - baball.anchoredPosition.y);
+        return diffX <= attackRange && diffY <= attackRange;
+    }
+
     public void LaunchAttack(Purrate cat)
     {
-        if (cat.Life > 0)
+        if (CanAttack(cat) && cat.Life > 0)
         {
             target = cat;
             targetPosition = SwitchToRectTransform(baball, cat.baballLauncher.baball);
+            position = baball.anchoredPosition;
             currentAnimationTime = 0;
             attacking = true;
             gameObject.SetActive(true);
         }
+    }
+
+    public void StopAttack()
+    {
+        gameObject.SetActive(false);
+        baball.anchoredPosition = anchoredPosition;
+        attacking = false;
     }
 
     private void Update()
@@ -46,10 +72,7 @@ public class BaballLauncher : MonoBehaviour
 
             if (currentAnimationTime >= animationDuration)
             {
-                gameObject.SetActive(false);
-                baball.anchoredPosition = anchoredPosition;
-                attacking = false;
-
+                StopAttack();
                 target.Strike();
 
                 if (target.Life > 0)

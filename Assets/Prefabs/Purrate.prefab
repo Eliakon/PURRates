@@ -96,6 +96,8 @@ GameObject:
   - 224: {fileID: 22415764}
   - 222: {fileID: 22298848}
   - 114: {fileID: 11448236}
+  - 95: {fileID: 9530618}
+  - 225: {fileID: 22517244}
   m_Layer: 5
   m_Name: Cat
   m_TagString: Untagged
@@ -167,6 +169,23 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 6d6531189d50dae45a072fd4a48de1e5, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+--- !u!95 &9530618
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 162354}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0706dc06575be425fbad8c8b8d45eec3, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -272,10 +291,28 @@ MonoBehaviour:
   rectTransform: {fileID: 22490062}
   skinManager: {fileID: 11486836}
   selectionAnimator: {fileID: 9506060}
+  characterAnimator: {fileID: 9530618}
   animationDuration: 5
   baballLauncher: {fileID: 11456006}
   healthPoints: {fileID: 11420572}
   life: 9
+  dieDelay: 0.5
+  DestroyPurrate:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: DestroyCat
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: Purrate+UnityPurrateEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &11433400
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -709,6 +746,17 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 165}
   m_SizeDelta: {x: 161, y: 83}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &22517244
+CanvasGroup:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 162354}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

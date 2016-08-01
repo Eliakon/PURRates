@@ -22,11 +22,18 @@ public class CatsManager : MonoBehaviour
         allCats.Add(cat);
     }
 
+    public void DestroyCat(Purrate cat)
+    {
+
+        allCats.Remove(cat);
+        Destroy(cat.gameObject);
+    }
+
     public void Reset()
     {
         for (var i = 0; i < allCats.Count; i++)
         {
-            Destroy(allCats[i]);
+            Destroy(allCats[i].gameObject);
         }
         allCats.Clear();
     }

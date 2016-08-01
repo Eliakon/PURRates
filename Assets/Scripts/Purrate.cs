@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Events;
 
 public class Purrate : MonoBehaviour
 {
     private const string selectedParameterName = "Selected";
+    private const string hitParameterName = "Hit";
+    private const string dieParameterName = "Die";
 
     [SerializeField]
     public RectTransform rectTransform;
@@ -12,13 +15,22 @@ public class Purrate : MonoBehaviour
     [SerializeField]
     private Animator selectionAnimator;
     [SerializeField]
-    private float animationDuration = 5;
+    private Animator characterAnimator;
+    [SerializeField]
+    private float animationDuration = 0.5f;
     [SerializeField]
     public BaballLauncher baballLauncher;
     [SerializeField]
     private HealthPoints healthPoints;
     [SerializeField]
     private int life = 9;
+    [SerializeField]
+    private float dieDelay = 5;
+
+    [System.Serializable]
+    public class UnityPurrateEvent: UnityEvent<Purrate> {}
+    [SerializeField]
+    private UnityPurrateEvent DestroyPurrate;
 
     private int maxLife;
     private bool selected = false;
@@ -48,6 +60,11 @@ public class Purrate : MonoBehaviour
 
     public void Move(Vector3 targetPos)
     {
+        if (baballLauncher.Attacking)
+        {
+            baballLauncher.StopAttack();
+        }
+
         position = rectTransform.localPosition;
         targetPosition = targetPos;
         currentAnimationTime = 0;
@@ -56,6 +73,8 @@ public class Purrate : MonoBehaviour
 
     public void LaunchAttack(Purrate enemy)
     {
+        moving = false;
+
         baballLauncher.LaunchAttack(enemy);
     }
 
@@ -63,6 +82,20 @@ public class Purrate : MonoBehaviour
     {
         life -= 1;
         healthPoints.SetHealth(life, maxLife);
+
+        if (life > 0)
+        {
+            characterAnimator.SetTrigger(hitParameterName);
+            return;
+        }
+        StartCoroutine(DestroyPurrateCoroutine());
+    }
+
+    private IEnumerator DestroyPurrateCoroutine()
+    {
+        characterAnimator.SetTrigger(dieParameterName);
+        yield return new WaitForSeconds(dieDelay);
+        DestroyPurrate.Invoke(this);
     }
 
     private void Update()

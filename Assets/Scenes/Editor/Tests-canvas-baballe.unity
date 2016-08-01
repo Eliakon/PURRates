@@ -1001,6 +1001,10 @@ Prefab:
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 157298002}
+    - target: {fileID: 11430946, guid: ffc39809fbe597e408352a42e551db03, type: 2}
+      propertyPath: DestroyPurrate.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 419204559}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ffc39809fbe597e408352a42e551db03, type: 2}
   m_IsPrefabParent: 0

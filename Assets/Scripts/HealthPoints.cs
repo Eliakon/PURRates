@@ -32,6 +32,10 @@ public class HealthPoints : MonoBehaviour
             {
                 health.anchorMax = new Vector2(toValue, health.anchorMax.y);
                 animated = false;
+                if (toValue == 0)
+                {
+                    gameObject.SetActive(false);
+                }
             }
 
             currentAnimationTime += Time.deltaTime;
