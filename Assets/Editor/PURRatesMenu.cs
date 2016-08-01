@@ -231,7 +231,9 @@ public class PURRatesMenu {
       GameObject tile = (GameObject) PrefabUtility.InstantiatePrefab(tileConfig.prefab);
 
       if (tileConfig.prefab == seaTile) {
-        tile.GetComponent<SeaTile>().game = gameScript;
+        SeaTile seaMgr = tile.GetComponent<SeaTile>();
+        seaMgr.game = gameScript;
+        seaMgr.worldPosition = new Vector2(tileConfig.mapX, tileConfig.mapY);
       }
 
       RectTransform tileTransform = tile.GetComponent<RectTransform>();
