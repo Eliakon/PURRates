@@ -11,6 +11,7 @@ public class SeaTile : MonoBehaviour
     private RectTransform rectTransform;
 
     public Game game;
+    public Vector2 position;
 
     public void HandleTileClicked()
     {
