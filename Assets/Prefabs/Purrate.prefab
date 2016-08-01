@@ -292,7 +292,7 @@ MonoBehaviour:
   skinManager: {fileID: 11486836}
   selectionAnimator: {fileID: 9506060}
   characterAnimator: {fileID: 9530618}
-  animationDuration: 5
+  animationDuration: 1
   baballLauncher: {fileID: 11456006}
   healthPoints: {fileID: 11420572}
   life: 9
@@ -411,6 +411,7 @@ MonoBehaviour:
   baball: {fileID: 22434416}
   animationDuration: 0.5
   bounce: 150
+  attackRange: 200
 --- !u!114 &11461766
 MonoBehaviour:
   m_ObjectHideFlags: 1

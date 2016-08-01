@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.Events;
 
 public class Purrate : MonoBehaviour
@@ -38,6 +39,7 @@ public class Purrate : MonoBehaviour
     private Vector2 position;
     private Vector2 targetPosition;
     private float currentAnimationTime;
+    private List<SeaTile.Position> currentPath;
 
     public int Life
     {
@@ -58,17 +60,49 @@ public class Purrate : MonoBehaviour
         selectionAnimator.SetBool(selectedParameterName, selected);
     }
 
-    public void Move(Vector3 targetPos)
+    public SeaTile.Position GetCurrentTilePosition(List<SeaTile.Position> seaTileStack)
     {
+        SeaTile.Position nearest = null;
+        float nearestDistance = 0;
+
+        foreach (SeaTile.Position position in seaTileStack)
+        {
+            float distance = Vector3.Distance(
+                rectTransform.localPosition,
+                position.screen
+            );
+
+            if (nearest == null || distance < nearestDistance) {
+                nearestDistance = distance;
+                nearest = position;
+            }
+        }
+
+        return nearest;
+    }
+
+    public void Move(SeaTile.Position target, List<SeaTile.Position> seaTileStack)
+    {
+
+        SeaTile.Position current = GetCurrentTilePosition(seaTileStack);
+        currentPath = SeaTile.Position.FindPath(seaTileStack, current, target);
+
         if (baballLauncher.Attacking)
         {
             baballLauncher.StopAttack();
         }
 
-        position = rectTransform.localPosition;
-        targetPosition = targetPos;
-        currentAnimationTime = 0;
-        moving = true;
+        MoveToNextPathPosition();
+    }
+
+    public void MoveToNextPathPosition() {
+        if (currentPath != null && currentPath.Count > 0) {
+            position = rectTransform.localPosition;
+            targetPosition = currentPath[0].screen;
+            currentPath.RemoveAt(0);
+            currentAnimationTime = 0;
+            moving = true;            
+        }
     }
 
     public void LaunchAttack(Purrate enemy)
@@ -110,6 +144,7 @@ public class Purrate : MonoBehaviour
             if (currentAnimationTime >= animationDuration)
             {
                 moving = false;
+                MoveToNextPathPosition();
             }
 
             currentAnimationTime += Time.deltaTime;

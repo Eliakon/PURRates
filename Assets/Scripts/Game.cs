@@ -9,6 +9,7 @@ public class Game : MonoBehaviour
 
     private Team localTeam;
     private Purrate selectedCat;
+    private List<SeaTile.Position> seaTileStack = new List<SeaTile.Position>();
 
     private void Start()
     {
@@ -54,11 +55,15 @@ public class Game : MonoBehaviour
         selectedCat = null;
     }
 
+    public void FeedSeaTileStack(SeaTile.Position position) {
+        seaTileStack.Add(position);
+    }
+
     public void MoveCat(SeaTile.Position target)
     {
         if (selectedCat != null)
         {
-            selectedCat.Move(target.screen);
+            selectedCat.Move(target, seaTileStack);
         }
     }
 }
