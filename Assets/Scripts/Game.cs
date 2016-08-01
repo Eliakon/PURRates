@@ -51,11 +51,11 @@ public class Game : MonoBehaviour
         selectedCat = null;
     }
 
-    public void MoveCat(Vector3 target)
+    public void MoveCat(SeaTile.Position target)
     {
         if (selectedCat != null)
         {
-            selectedCat.Move(target);
+            selectedCat.Move(target.screen);
         }
     }
 }
