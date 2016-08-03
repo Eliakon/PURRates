@@ -10,6 +10,7 @@ public class CatsManager : MonoBehaviour
     private Transform canvas;
 
     private List<Purrate> allCats = new List<Purrate>();
+    private bool sort;
 
     public void CreateCat(Team team, float coordX, float coordY)
     {
@@ -20,6 +21,31 @@ public class CatsManager : MonoBehaviour
         cat.skinManager.SetColor(team.skinColor);
         team.AddCat(cat);
         allCats.Add(cat);
+        sort = true;
+    }
+
+    public bool Sort
+    {
+        get
+        {
+            return sort;
+        }
+        set
+        {
+            sort = value;
+        }
+    }
+
+    private void SortCats()
+    {
+        allCats.Sort(delegate(Purrate x, Purrate y) {
+            return x.rectTransform.anchoredPosition.y < y.rectTransform.anchoredPosition.y ? 0 : 1;
+        });
+
+        for (var i = 0; i < allCats.Count; i++)
+        {
+            // Order in canvas
+        }
     }
 
     public void DestroyCat(Purrate cat)
@@ -36,5 +62,14 @@ public class CatsManager : MonoBehaviour
             Destroy(allCats[i].gameObject);
         }
         allCats.Clear();
+    }
+
+    private void Update()
+    {
+        if (sort)
+        {
+            SortCats();
+            sort = false;
+        }
     }
 }

@@ -32,6 +32,8 @@ public class Purrate : MonoBehaviour
     public class UnityPurrateEvent: UnityEvent<Purrate> {}
     [SerializeField]
     private UnityPurrateEvent DestroyPurrate;
+    [SerializeField]
+    private UnityEvent CatMoves;
 
     private int maxLife;
     private bool selected = false;
@@ -101,7 +103,7 @@ public class Purrate : MonoBehaviour
             targetPosition = currentPath[0].screen;
             currentPath.RemoveAt(0);
             currentAnimationTime = 0;
-            moving = true;            
+            moving = true;
         }
     }
 
@@ -148,6 +150,7 @@ public class Purrate : MonoBehaviour
             }
 
             currentAnimationTime += Time.deltaTime;
+            CatMoves.Invoke();
         }
     }
 }
