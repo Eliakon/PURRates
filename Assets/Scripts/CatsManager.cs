@@ -38,13 +38,13 @@ public class CatsManager : MonoBehaviour
 
     private void SortCats()
     {
-        allCats.Sort(delegate(Purrate x, Purrate y) {
-            return x.rectTransform.anchoredPosition.y < y.rectTransform.anchoredPosition.y ? 0 : 1;
+        allCats.Sort(delegate(Purrate cat1, Purrate cat2) {
+            return (int) (cat2.rectTransform.anchoredPosition.y - cat1.rectTransform.anchoredPosition.y);
         });
 
         for (var i = 0; i < allCats.Count; i++)
         {
-            // Order in canvas
+            allCats[i].rectTransform.SetSiblingIndex(i);
         }
     }
 
