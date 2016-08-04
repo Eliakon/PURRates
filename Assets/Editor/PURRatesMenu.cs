@@ -242,6 +242,7 @@ public class PURRatesMenu {
       } else {
         IslandPart part = tile.GetComponent<IslandPart>();
         tileConfig.island.parts.Add(part);
+        part.island = tileConfig.island;
       }
 
       RectTransform tileTransform = tile.GetComponent<RectTransform>();
