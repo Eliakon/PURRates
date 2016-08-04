@@ -55,6 +55,7 @@ public class TileConfig {
   public int mapX;
   public int mapY;
   public RectTransform parent;
+  public Island island;
 
   public TileConfig(int mapX, int mapY, float x, float y, GameObject prefab) {
     this.mapX = mapX;
@@ -73,9 +74,12 @@ public class IslandConfig {
   public int height;
   public GameObject root;
   public RectTransform rootTransform;
+  public Island island;
 
   public IslandConfig(int width, int height, GameObject islandRoot) {
     this.root = (GameObject) PrefabUtility.InstantiatePrefab(islandRoot);
+    this.island = this.root.GetComponent<Island>();
+    this.island.parts = new List<IslandPart>();
     root.name = "Island " + width + "x" + height;
 
     this.rootTransform = this.root.GetComponent<RectTransform>();
@@ -183,8 +187,9 @@ public class PURRatesMenu {
           for (int islandX = (int) island.centerX - island.width / 2; islandX <= island.centerX + island.width / 2; ++islandX) {
             for (int islandY = (int) island.centerY - island.height / 2; islandY <= island.centerY + island.height / 2; ++islandY) {
               TileConfig toChange = generatedTiles.Find(t => t.mapX == islandX && t.mapY == islandY);
-              
+
               toChange.parent = island.rootTransform;
+              toChange.island = island.island;
 
               if (Mathf.Abs(islandX - island.centerX) == island.width / 2 || Mathf.Abs(islandY - island.centerY) == island.height / 2) {
                 toChange.prefab = sandTile;
@@ -234,6 +239,9 @@ public class PURRatesMenu {
         SeaTile seaMgr = tile.GetComponent<SeaTile>();
         seaMgr.game = gameScript;
         seaMgr.worldPosition = new Vector2(tileConfig.mapX, tileConfig.mapY);
+      } else {
+        IslandPart part = tile.GetComponent<IslandPart>();
+        tileConfig.island.parts.Add(part);
       }
 
       RectTransform tileTransform = tile.GetComponent<RectTransform>();
