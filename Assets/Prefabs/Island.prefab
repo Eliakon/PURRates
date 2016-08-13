@@ -27,7 +27,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 048db8a842b666040863df3693e01a43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  seaTiles: []
+  parts: []
+  enlightedMaterial: {fileID: 2100000, guid: 45e4f4d4d08afee4c86f6f14280f470e, type: 2}
+  normalMaterial: {fileID: 2100000, guid: 2a9322b41141ad64f9e937d8376cab5b, type: 2}
 --- !u!224 &22460120
 RectTransform:
   m_ObjectHideFlags: 1
